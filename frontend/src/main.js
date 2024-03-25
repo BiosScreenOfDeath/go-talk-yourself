@@ -4,8 +4,9 @@ import createWebsocketAPI from "../src/api/index";
 import TitleVue from './components/Title/Title.vue'
 import ChatVue from './components/Chat/Chat.vue';
 import HistoryVue from './components/History/History.vue'
-// import App from './App.vue'
-// createApp(App).mount('#app')
+
+// Style guest messages bubbles with separate colors
+// Style user connections and disconnections
 
 const app = createApp({
     template: `

@@ -3,7 +3,7 @@ package websocket
 import (
 	"fmt"
 	"log"
-	"sync"
+	"math/rand/v2"
 
 	"github.com/gorilla/websocket"
 )
@@ -12,7 +12,7 @@ type Client struct {
 	ID   string
 	Conn *websocket.Conn
 	Pool *Pool
-	mu   sync.Mutex
+	//mu   sync.Mutex
 }
 
 type Message struct {
@@ -32,8 +32,17 @@ func (c *Client) Read() {
 			log.Println(err)
 			return
 		}
-		message := Message{Type: messageType, Body: string(p)}
+		message := Message{
+			Type: messageType,
+			Body: c.ID + ": " + string(p)}
 		c.Pool.Broadcast <- message
 		fmt.Printf("Message received: %+v\n", message)
 	}
+}
+
+func (c *Client) GenerateClientID() {
+
+	nameList := []string{"arpen", "titor", "buzz", "kromer", "bogus", "alto", "dazzle"}
+
+	c.ID = nameList[rand.IntN(len(nameList)-1)] + " " + nameList[rand.IntN(len(nameList)-1)]
 }
