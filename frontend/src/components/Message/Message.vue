@@ -1,34 +1,18 @@
 <script>
-import { onMounted } from 'vue'
 
 export default {
     setup(props){
-        // FIND A WAY TO SET UP THE COLOR CLASS PER USER DYNAMICALLY
-        // CONSIDER: SET ALL DATA IN SETUP ALONG WITH THE DYNAMICALLY-SET CLASSNAME OF EACH USER
+        // return { userStyles, myStyle, getRandomInt, getRandomInt, setMyStyle}
     },
     props: [
         'message',
-        'user_ID'
+        'user_ID',
+        'user_class'
     ],
     data() {
-        return {
-            userStyles: [
-                "style-1",
-                "style-2",
-                "style-3"
-            ],
-        }
+        return { }
     },
-    methods: {
-        setMyStyle: () => {
-            myStyle = userStyles[getRandomInt(0, userStyles.length)]
-        },
-        getRandomInt: (min, max) => {
-            const minCeiled = Math.ceil(min)
-            const maxFloored = Math.floor(max)
-            return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled)
-        }
-    },
+    methods: {},
     computed: {
         chatClass() {
             if(this.user_ID != ""){
@@ -40,10 +24,8 @@ export default {
             }
             return ""
         },
-        userClass(){
-            return ""
-        },
         messageEntry(){
+            console.log("user class (message.vue)",this.user_class);
             if(this.user_ID != ""){
                 return this.user_ID + ":" + this.message
             }
@@ -54,7 +36,7 @@ export default {
 </script>
 <template>
     <li
-        :class="[chatClass, userClass]"
+        :class="[chatClass, user_class]"
         style="list-style:none;">
         {{ messageEntry }}
     </li>

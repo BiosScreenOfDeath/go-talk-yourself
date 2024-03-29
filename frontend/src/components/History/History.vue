@@ -7,7 +7,22 @@ export default {
         MessageVue
     },
     data() {
-        return { lastMessage: ""}
+        return {
+            userStyles: [
+                "style-1",
+                "style-2",
+                "style-3",
+                "style-4",
+                "style-5",
+                "style-6",
+                "style-7",
+                "style-8",
+                "style-9",
+            ], 
+            lastMessage: "",
+            userID: "",
+            users: []
+        }
     },
     computed: {
         lastMessage(){
@@ -34,11 +49,46 @@ export default {
             for(let iterate=0;iterate<message.body.length;iterate++){
                 messageRawData.push(message.body[iterate]);
             }
-            this.messages.push({
-                body: messageRawData.join(''),
-                user_ID: this.userID,
-            });
+            console.log(message)
+            if(this.user_ID != "" && message.type == 1){
+                this.users.push({
+                    user_ID: this.userID,
+                    user_class: this.setMyStyle()
+                })
+
+                this.messages.push({
+                    body: messageRawData.join(''),
+                    user_ID: this.userID,
+                    user_class: this.getUser(message.user_ID).user_class
+                });
+            } else {
+                this.messages.push({
+                    body: messageRawData.join(''),
+                    user_ID: this.userID,
+                    user_class: ""
+                });
+            }
         },
+        userClass(){
+            return this.myStyle
+        },
+        getUser(user_ID){
+            for(const user of this.users) {
+                if(user.user_ID === user_ID){
+                    console.log("user "+user.user_ID + " exists")
+                    return user;
+                }
+            };
+            return {}
+        },
+        getRandomInt (min, max) {
+            const minCeiled = Math.ceil(min)
+            const maxFloored = Math.floor(max)
+            return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled)
+        },
+        setMyStyle() {
+            return this.userStyles[this.getRandomInt(0, this.userStyles.length)]
+        }
     }
 }
 </script>
@@ -49,7 +99,8 @@ export default {
             v-if="this.messages"
             v-for="messageEntry in this.messages"
             :message="messageEntry.body"
-            :user_ID="messageEntry.user_ID"  />
+            :user_ID="messageEntry.user_ID"
+            :user_class="messageEntry.user_class" />
         </ul>
     </div>
 </template>
