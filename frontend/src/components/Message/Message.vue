@@ -1,9 +1,5 @@
 <script>
-
 export default {
-    setup(props){
-        // return { userStyles, myStyle, getRandomInt, getRandomInt, setMyStyle}
-    },
     props: [
         'message',
         'user_ID',
@@ -25,9 +21,8 @@ export default {
             return ""
         },
         messageEntry(){
-            console.log("user class (message.vue)",this.user_class);
             if(this.user_ID != ""){
-                return this.user_ID + ":" + this.message
+                return this.user_ID + ": " + this.message
             }
             return this.message
         }

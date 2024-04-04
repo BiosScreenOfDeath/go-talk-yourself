@@ -20,6 +20,7 @@ func serverWS(pool *websocket.Pool, w http.ResponseWriter, r *http.Request) {
 		Pool: pool,
 	}
 	client.GenerateClientID()
+	client.GenerateClientClassID()
 
 	pool.Register <- client
 	client.Read()

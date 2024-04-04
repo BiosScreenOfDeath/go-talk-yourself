@@ -9,16 +9,18 @@ import (
 )
 
 type Client struct {
-	ID   string
-	Conn *websocket.Conn
-	Pool *Pool
+	ID       string
+	Class_ID int
+	Conn     *websocket.Conn
+	Pool     *Pool
 	//mu   sync.Mutex
 }
 
 type Message struct {
-	Type    int    `json:"type"`
-	Body    string `json:"body"`
-	User_ID string `json:"user_ID"`
+	Type       int    `json:"type"`
+	Body       string `json:"body"`
+	User_ID    string `json:"user_ID"`
+	User_Class int    `json:"user_class_id"`
 }
 
 func (c *Client) Read() {
@@ -34,9 +36,11 @@ func (c *Client) Read() {
 			return
 		}
 		message := Message{
-			Type:    messageType,
-			Body:    string(p),
-			User_ID: c.ID}
+			Type:       messageType,
+			Body:       string(p),
+			User_ID:    c.ID,
+			User_Class: c.Class_ID,
+		}
 		c.Pool.Broadcast <- message
 		fmt.Printf("Message received: %+v\n", message)
 	}
@@ -47,4 +51,8 @@ func (c *Client) GenerateClientID() {
 	nameList := []string{"arpen", "titor", "buzz", "kromer", "bogus", "alto", "dazzle"}
 
 	c.ID = nameList[rand.IntN(len(nameList)-1)] + " " + nameList[rand.IntN(len(nameList)-1)]
+}
+
+func (c *Client) GenerateClientClassID() {
+	c.Class_ID = rand.IntN(10)
 }

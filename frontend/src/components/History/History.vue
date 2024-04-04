@@ -9,15 +9,16 @@ export default {
     data() {
         return {
             userStyles: [
-                "style-1",
-                "style-2",
-                "style-3",
-                "style-4",
-                "style-5",
-                "style-6",
-                "style-7",
-                "style-8",
-                "style-9",
+                "flame-pea",
+                "web-orange",
+                "electric-lime",
+                "bright-green",
+                "spring-green",
+                "cyan-aqua",
+                "blue-ribbon",
+                "electric-violet",
+                "magenta-fuchsia",
+                "torch-red"
             ], 
             lastMessage: "",
             userID: "",
@@ -33,7 +34,7 @@ export default {
         this.ws.onMessage(msg => {
             let messageJSON = JSON.parse(msg.data);
             this.addToHistory(messageJSON);
-            this.getHistoryInConsole();
+            // this.getHistoryInConsole();
         })
     },
     methods: {
@@ -42,18 +43,19 @@ export default {
         },
         addToHistory(message){
             // console.log(message.body); // latest text
-            // console.log(message.user_ID); // latest text
+            // console.log(message.user_ID); // latest user ID
             this.userID = message.user_ID ? message.user_ID : "";
             this.lastMessage = message.body;
             let messageRawData = [];
             for(let iterate=0;iterate<message.body.length;iterate++){
                 messageRawData.push(message.body[iterate]);
             }
-            console.log(message)
-            if(this.user_ID != "" && message.type == 1){
+            if(this.user_ID != ""
+            && message.type == 1
+            && typeof message.user_class_id === 'number'){
                 this.users.push({
                     user_ID: this.userID,
-                    user_class: this.setMyStyle()
+                    user_class: this.setMyStyle(message.user_class_id)
                 })
 
                 this.messages.push({
@@ -69,25 +71,16 @@ export default {
                 });
             }
         },
-        userClass(){
-            return this.myStyle
-        },
         getUser(user_ID){
             for(const user of this.users) {
                 if(user.user_ID === user_ID){
-                    console.log("user "+user.user_ID + " exists")
                     return user;
                 }
             };
             return {}
         },
-        getRandomInt (min, max) {
-            const minCeiled = Math.ceil(min)
-            const maxFloored = Math.floor(max)
-            return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled)
-        },
-        setMyStyle() {
-            return this.userStyles[this.getRandomInt(0, this.userStyles.length)]
+        setMyStyle(class_id) {
+            return this.userStyles[class_id]
         }
     }
 }

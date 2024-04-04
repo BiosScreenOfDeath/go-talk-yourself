@@ -1,4 +1,5 @@
 <script>
+// DEPRECATED
 export default {
   data() {
     return {
