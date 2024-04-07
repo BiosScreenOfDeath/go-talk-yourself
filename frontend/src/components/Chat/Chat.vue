@@ -5,10 +5,7 @@
       return {}
     },
     methods: {
-      // ALRIGHT, WHAT WE NEED IS.
-      // 2. SHOW IT TO HISTORY
-      // 3. make SURE the clients communicate with each other
-      funni(event){
+      sendViaWebsocket(event){
         this.ws.sendMessage(event.target.value)
         event.target.value = ""
       }
@@ -25,6 +22,11 @@
 
 <template>
   <div className='ChatVue'>
-      <input v-on:keyup.enter="funni" placeholder="Type here... "/>
+      <input v-on:keyup.enter="sendViaWebsocket" placeholder="Type here... "/>
   </div>
+  <footer class="p-5 bg-dark text-white text-center position-relative">
+        <div class="container">
+          <p class="lead"> &copy; {{ (new Date()).getFullYear() }} Go GoTalkYourself. </p>
+        </div>
+    </footer>
 </template>
