@@ -48,9 +48,12 @@ func (c *Client) Read() {
 
 func (c *Client) GenerateClientID() {
 
-	nameList := []string{"arpen", "titor", "buzz", "kromer", "bogus", "alto", "dazzle"}
+	nameList := []string{
+		"arpen", "titor", "buzz", "kromer", "bogus", "alto", "dazzle",
+		"motor", "freeman", "silent", "still", "mono", "beer", "sick"}
 
-	c.ID = nameList[rand.IntN(len(nameList)-1)] + " " + nameList[rand.IntN(len(nameList)-1)]
+	c.ID = nameList[rand.IntN(len(nameList)-1)] +
+		" " + nameList[rand.IntN(len(nameList)-1)]
 }
 
 func (c *Client) GenerateClientClassID() {
